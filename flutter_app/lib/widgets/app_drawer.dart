@@ -17,9 +17,13 @@ class AppDrawer extends ConsumerWidget {
     final theme = Theme.of(context);
     final auth = ref.watch(authControllerProvider);
 
-    void closeThenGo(String location) {
+    void closeThenGo(String location, {bool push = false}) {
       Scaffold.of(context).closeDrawer();
-      context.go(location);
+      if (push) {
+        context.push(location);
+      } else {
+        context.go(location);
+      }
     }
 
     return NavigationDrawer(
@@ -63,17 +67,17 @@ class AppDrawer extends ConsumerWidget {
         ListTile(
           leading: const Icon(Icons.bookmark_border),
           title: Text(l10n.favorites),
-          onTap: () => closeThenGo('/favorites'),
+          onTap: () => closeThenGo('/favorites', push: true),
         ),
         ListTile(
           leading: const Icon(Icons.search),
           title: Text(l10n.search),
-          onTap: () => closeThenGo('/search'),
+          onTap: () => closeThenGo('/search', push: true),
         ),
         ListTile(
           leading: const Icon(Icons.add_circle_outline),
           title: Text(l10n.submit),
-          onTap: () => closeThenGo('/submit'),
+          onTap: () => closeThenGo('/submit', push: true),
         ),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -84,18 +88,18 @@ class AppDrawer extends ConsumerWidget {
             leading: const Icon(Icons.person_outline),
             title: Text(auth.username ?? l10n.account),
             subtitle: Text(l10n.profile),
-            onTap: () => closeThenGo('/user/${auth.username}'),
+            onTap: () => closeThenGo('/user/${auth.username}', push: true),
           )
         else
           ListTile(
             leading: const Icon(Icons.login),
             title: Text(l10n.login),
-            onTap: () => closeThenGo('/login'),
+            onTap: () => closeThenGo('/login', push: true),
           ),
         ListTile(
           leading: const Icon(Icons.settings_outlined),
           title: Text(l10n.settings),
-          onTap: () => closeThenGo('/settings'),
+          onTap: () => closeThenGo('/settings', push: true),
         ),
         ListTile(
           leading: const Icon(Icons.info_outline),

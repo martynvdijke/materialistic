@@ -36,6 +36,7 @@ void main() {
 
   test('tracks read items and clears them', () async {
     await db.markRead(1);
+    await db.markRead(1);
     await db.markRead(2);
     expect(await db.isRead(1), isTrue);
     expect(await db.watchReadIds().first, {1, 2});

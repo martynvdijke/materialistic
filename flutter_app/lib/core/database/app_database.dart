@@ -63,8 +63,11 @@ class AppDatabase extends _$AppDatabase {
   Future<void> clearFavorites() => delete(favorites).go();
 
   Future<void> markRead(int itemId) {
-    return into(readItems)
-        .insertOnConflictUpdate(ReadItemsCompanion.insert(itemId: itemId));
+    return into(readItems).insert(
+      ReadItemsCompanion.insert(itemId: itemId),
+      mode: InsertMode.insertOrIgnore,
+      onConflict: DoNothing(target: [readItems.itemId]),
+    );
   }
 
   Future<bool> isRead(int itemId) async {

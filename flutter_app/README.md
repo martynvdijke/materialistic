@@ -41,6 +41,13 @@ set `JAVA_HOME` for Gradle:
 JAVA_HOME=/opt/jdk17 flutter build apk --debug
 ```
 
+An end-to-end test exercises live Hacker News and Algolia data on an Android
+emulator or device:
+
+```sh
+JAVA_HOME=/opt/jdk17 flutter test integration_test/app_test.dart -d emulator-5554
+```
+
 ## Structure
 
 ```
