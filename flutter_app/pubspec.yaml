@@ -1,0 +1,64 @@
+name: materialistic
+description: "Material design Hacker News client."
+publish_to: 'none'
+version: 3.4.0+100
+
+environment:
+  sdk: ^3.13.5
+
+dependencies:
+  app_links: ^7.2.2
+  cookie_jar: ^4.0.9
+  dio: ^5.11.1
+  dio_cookie_manager: ^3.5.0
+  drift: ^2.35.2
+  flutter:
+    sdk: flutter
+  flutter_html: ^3.0.0
+  flutter_inappwebview: ^6.2.0-beta.3
+  flutter_localizations:
+    sdk: flutter
+  flutter_riverpod: ^3.4.3
+  flutter_secure_storage: ^11.2.0
+  freezed_annotation: ^3.1.0
+  go_router: ^18.1.1
+  intl: ^0.20.3
+  json_annotation: ^4.12.0
+  path: ^1.9.1
+  path_provider: ^2.1.6
+  share_plus: ^13.3.1
+  shared_preferences: ^2.5.6
+  sqlite3: ^3.7.1
+  url_launcher: ^6.3.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.16.2
+  freezed: ^4.0.3
+  json_serializable: ^6.15.2
+  drift_dev: ^2.35.1
+  mocktail: ^1.0.5
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/pgl.yoyo.org.txt
+  fonts:
+    - family: Droid Sans
+      fonts:
+        - asset: assets/fonts/DroidSans.ttf
+    - family: Droid Serif
+      fonts:
+        - asset: assets/fonts/DroidSerif.ttf
+    - family: Roboto Slab
+      fonts:
+        - asset: assets/fonts/RobotoSlab-Regular.ttf
+    - family: Libre Baskerville
+      fonts:
+        - asset: assets/fonts/LibreBaskerville-Regular.ttf
+
+dependency_overrides:
+  # flutter_html 3.0.0 imports html 0.15.6's removed top-level matches().
+  html: 0.15.6

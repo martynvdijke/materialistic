@@ -3,6 +3,9 @@ Material design [Hacker News] client for Android, uses official [HackerNews/API]
 
 [![Get it on Google Play][Play Store Badge]][Play Store]
 
+### Flutter rewrite
+A phased Flutter rewrite lives in [`flutter_app/`](flutter_app/). It targets Android parity first and is developed alongside the existing native app, which remains the shipping implementation until cutover. See the [migration design](docs/superpowers/specs/2026-10-23-flutter-migration-design.md) and the [Flutter app README](flutter_app/README.md).
+
 ### Setup
 **Requirements**
 - JDK 17
