@@ -12,10 +12,18 @@ concurrency:
 
 permissions:
   contents: read
+  actions: read
+  checks: read
+  pull-requests: read
 
 jobs:
   ci:
     uses: ./.github/workflows/ci.yaml # zizmor: ignore[self-repository]
+    permissions:
+      contents: read
+      actions: read
+      checks: read
+      pull-requests: read
     secrets: inherit
 
   release:
