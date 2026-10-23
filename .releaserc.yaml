@@ -1,0 +1,31 @@
+plugins:
+  - [
+      "@semantic-release/commit-analyzer",
+      {
+        "releaseRules": [
+          { "type": "chore", "scope": "deps", "release": "patch" },
+          { "type": "chore", "scope": "dependencies", "release": "patch" },
+          { "type": "refactor", "release": "patch" },
+          { "type": "style", "release": "patch" }
+        ]
+      }
+    ]
+  - "@semantic-release/release-notes-generator"
+  - "@semantic-release/changelog"
+  - [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "VERSION='${nextRelease.version}' && CODE=$(echo \"$VERSION\" | awk -F. '{printf \"%d%03d%03d\", $1, $2, $3}') && sed -i -E \"s/^version: .*/version: $VERSION+$CODE/\" flutter_app/pubspec.yaml"
+      }
+    ]
+  - [
+      "@semantic-release/git",
+      {
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+        "assets": ["CHANGELOG.md", "flutter_app/pubspec.yaml"]
+      }
+    ]
+  - "@semantic-release/github"
+
+branches:
+  - master

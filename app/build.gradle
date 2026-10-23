@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.android.legacy-kapt'
 
+def keystorePropertiesFile = rootProject.file('key.properties')
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withInputStream { keystoreProperties.load(it) }
+}
+
 android {
     compileSdk = 36
 
@@ -25,6 +31,17 @@ android {
         buildConfig = true
     }
 
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            release {
+                storeFile = file(keystoreProperties.getProperty('storeFile'))
+                storePassword = keystoreProperties.getProperty('storePassword')
+                keyAlias = keystoreProperties.getProperty('keyAlias')
+                keyPassword = keystoreProperties.getProperty('keyPassword')
+            }
+        }
+    }
+
     buildTypes {
         debug {
             minifyEnabled = false
@@ -32,6 +49,8 @@ android {
         release {
             minifyEnabled = true
             shrinkResources = true
+            signingConfig = keystorePropertiesFile.exists() ?
+                    signingConfigs.release : signingConfigs.debug
         }
     }
     lint {
