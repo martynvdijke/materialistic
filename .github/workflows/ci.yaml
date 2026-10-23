@@ -2,11 +2,6 @@ name: CI
 
 on:
   workflow_call:
-    secrets:
-      OTLP_ENDPOINT:
-        required: false
-      OTLP_HEADERS:
-        required: false
   push:
     branches-ignore:
       - master

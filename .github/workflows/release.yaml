@@ -16,9 +16,7 @@ permissions:
 jobs:
   ci:
     uses: ./.github/workflows/ci.yaml # zizmor: ignore[self-repository]
-    secrets:
-      OTLP_ENDPOINT: ${{ secrets.OTLP_ENDPOINT }}
-      OTLP_HEADERS: ${{ secrets.OTLP_HEADERS }}
+    secrets: inherit
 
   release:
     needs: ci
