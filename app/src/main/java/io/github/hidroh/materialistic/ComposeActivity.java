@@ -126,7 +126,7 @@ public class ComposeActivity extends InjectableActivity {
             mEditText.getEditableText().insert(0, createQuote());
         }
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
             return true;
         }
         if (item.getItemId() == R.id.menu_save_draft) {
@@ -151,20 +151,20 @@ public class ComposeActivity extends InjectableActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    protected void handleBackPressed() {
         if (mEditText.length() == 0 || mSending ||
                 TextUtils.equals(Preferences.getDraft(this, mParentId), mEditText.getText().toString())) {
-            super.onBackPressed();
+            super.handleBackPressed();
             return;
         }
         mAlertDialogBuilder
                 .init(this)
                 .setMessage(R.string.confirm_save_draft)
                 .setNegativeButton(android.R.string.no, (dialog, which) ->
-                        ComposeActivity.super.onBackPressed())
+                        ComposeActivity.super.handleBackPressed())
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                         Preferences.saveDraft(this, mParentId, mEditText.getText().toString());
-                        ComposeActivity.super.onBackPressed();
+                        ComposeActivity.super.handleBackPressed();
                 })
                 .show();
     }

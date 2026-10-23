@@ -251,9 +251,9 @@ public class ItemActivity extends InjectableActivity implements ItemFragment.Ite
     }
 
     @Override
-    public void onBackPressed() {
+    protected void handleBackPressed() {
         if (!mFullscreen) {
-            super.onBackPressed();
+            super.handleBackPressed();
         } else {
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(
                     WebFragment.ACTION_FULLSCREEN).putExtra(WebFragment.EXTRA_FULLSCREEN, false));

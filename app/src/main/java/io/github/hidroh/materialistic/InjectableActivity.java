@@ -18,15 +18,24 @@ package io.github.hidroh.materialistic;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+
 import dagger.ObjectGraph;
 
 public abstract class InjectableActivity extends ThemedActivity implements Injectable {
     private ObjectGraph mActivityGraph;
     private boolean mDestroyed;
+    private final OnBackPressedCallback mBackCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            handleBackPressed();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getOnBackPressedDispatcher().addCallback(this, mBackCallback);
         inject(this);
     }
 
@@ -37,13 +46,19 @@ public abstract class InjectableActivity extends ThemedActivity implements Injec
         mActivityGraph = null;
     }
 
-    @Override
-    public void onBackPressed() {
-        // TODO http://b.android.com/176265
+    /**
+     * Handles a back press. Subclasses may override to intercept it and call
+     * {@code super.handleBackPressed()} to fall through to the default behavior.
+     */
+    protected void handleBackPressed() {
+        mBackCallback.setEnabled(false);
         try {
-            super.onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
         } catch (IllegalStateException e) {
+            // TODO http://b.android.com/176265
             supportFinishAfterTransition();
+        } finally {
+            mBackCallback.setEnabled(true);
         }
     }
 

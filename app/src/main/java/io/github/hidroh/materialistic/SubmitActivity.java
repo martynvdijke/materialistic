@@ -113,7 +113,7 @@ public class SubmitActivity extends InjectableActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
             return true;
         }
         if (item.getItemId() == R.id.menu_send) {
@@ -152,12 +152,12 @@ public class SubmitActivity extends InjectableActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    protected void handleBackPressed() {
         mAlertDialogBuilder
                 .init(this)
                 .setMessage(mSending ? R.string.confirm_no_waiting : R.string.confirm_no_submit)
                 .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> SubmitActivity.super.onBackPressed())
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> SubmitActivity.super.handleBackPressed())
                 .show();
     }
 

@@ -5,16 +5,17 @@ Material design [Hacker News] client for Android, uses official [HackerNews/API]
 
 ### Setup
 **Requirements**
-- JDK 11
-- Latest Android SDK tools
+- JDK 17
+- Latest Android SDK tools (compileSdk 36)
 - Latest Android platform tools
-- AndroidX
+- Android 6.0 (API 23) or newer on device
 
 **Dependencies**
 - [Official Hacker News API][HackerNews/API], user services (e.g. login/create account/vote/comment) rely on redirect requests to Hacker News website
 - [Algolia Hacker News Search API]
 - [Mercury Web Parser API]
-- [Android Jetpack]: appcompat-v7 / recyclerview-v7 / design / cardview-v7 / preference-v7 / customtabs
+- [Android Jetpack]: appcompat / recyclerview / cardview / swiperefreshlayout / preference / browser / lifecycle / room
+- [Material Components for Android]
 - Square [Retrofit] / [OkHttp] / [AssertJ] / [Dagger] / [LeakCanary]
 - [RxJava] & [RxAndroid]
 - [PDF.js]
@@ -71,6 +72,7 @@ Contributions are always welcome. Please make sure you read [Contributing notes]
 [OkHttp]: https://github.com/square/okhttp
 [AssertJ]: https://github.com/square/assertj-android
 [Dagger]: https://github.com/square/dagger
+[Material Components for Android]: https://github.com/material-components/material-components-android
 [LeakCanary]: https://github.com/square/leakcanary
 [RxJava]: https://github.com/ReactiveX/RxJava
 [RxAndroid]: https://github.com/ReactiveX/RxAndroid

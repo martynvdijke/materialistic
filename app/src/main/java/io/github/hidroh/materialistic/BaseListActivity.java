@@ -248,9 +248,9 @@ public abstract class BaseListActivity extends DrawerActivity implements MultiPa
         }
     }
     @Override
-    public void onBackPressed() {
+    protected void handleBackPressed() {
         if (!mIsMultiPane || !mFullscreen) {
-            super.onBackPressed();
+            super.handleBackPressed();
         } else {
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(
                     WebFragment.ACTION_FULLSCREEN).putExtra(WebFragment.EXTRA_FULLSCREEN, false));

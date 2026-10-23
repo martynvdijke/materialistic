@@ -16,12 +16,16 @@
 
 package io.github.hidroh.materialistic;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 import android.text.TextUtils;
@@ -120,10 +124,19 @@ public class FavoriteFragment extends BaseListFragment
             return true;
         }
         if (item.getItemId() == R.id.menu_export) {
+            requestExportNotificationsPermission();
             mFavoriteManager.export(getActivity(), mFilter);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requestExportNotificationsPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(requireContext(),
+                        Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
+        }
     }
 
     @Override

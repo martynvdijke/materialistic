@@ -16,9 +16,11 @@
 
 package io.github.hidroh.materialistic.data
 
+import android.Manifest
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.CursorWrapper
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -27,6 +29,7 @@ import androidx.annotation.AnyThread
 import androidx.annotation.WorkerThread
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import io.github.hidroh.materialistic.DataModule
 import io.github.hidroh.materialistic.FavoriteActivity
 import io.github.hidroh.materialistic.R
@@ -34,7 +37,8 @@ import io.github.hidroh.materialistic.ktx.closeQuietly
 import io.github.hidroh.materialistic.ktx.getUri
 import io.github.hidroh.materialistic.ktx.setChannel
 import io.github.hidroh.materialistic.ktx.toSendIntentChooser
-import okio.Okio
+import okio.buffer
+import okio.sink
 import rx.Observable
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
@@ -206,7 +210,7 @@ class FavoriteManager @Inject constructor(
     if (!dir.exists() && !dir.mkdir()) return null
     val file = File(dir, FILENAME_EXPORT)
     if (!file.exists() && !file.createNewFile()) return null
-    val bufferedSink = Okio.buffer(Okio.sink(file))
+    val bufferedSink = file.sink().buffer()
     with(bufferedSink) {
       do {
         val item = cursor.favorite
@@ -227,6 +231,9 @@ class FavoriteManager @Inject constructor(
   }
 
   private fun notifyExportStart(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+        ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) !=
+        PackageManager.PERMISSION_GRANTED) return
     NotificationManagerCompat.from(context)
       .notify(
         notificationId, createNotificationBuilder(context)
@@ -252,6 +259,9 @@ class FavoriteManager @Inject constructor(
     with(manager) {
       cancel(notificationId)
       if (uri == null) return
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+          ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) !=
+          PackageManager.PERMISSION_GRANTED) return
       context.grantUriPermission(context.packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
       notify(
         notificationId, createNotificationBuilder(context)
