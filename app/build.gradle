@@ -77,7 +77,7 @@ android {
 }
 
 ext {
-    okHttpVersion = '5.4.0'
+    okHttpVersion = '5.5.1'
     daggerVersion = '1.2.5'
     retrofitVersion = '3.0.0'
     roomVersion = '2.8.5'
@@ -88,7 +88,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.8.0',
             'androidx.recyclerview:recyclerview:1.4.0',
             'androidx.cardview:cardview:1.0.0',
-            'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0',
+            'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0',
             'com.google.android.material:material:1.14.0',
             'androidx.preference:preference:1.2.1',
             'androidx.browser:browser:1.10.0',
