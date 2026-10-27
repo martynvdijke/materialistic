@@ -34,5 +34,6 @@ Materialistic currently ships signed Android release APKs through GitHub Release
 - New `.github/workflows/play-store.yaml`.
 - New `play-store` job in `.github/workflows/release.yaml`.
 - New `.github/workflows/android-e2e.yaml`.
-- New `flutter_app/integration_test/app_e2e_test.dart` and `integration_test` dev dependency in `flutter_app/pubspec.yaml`.
+- Reuses the existing `flutter_app/integration_test/app_test.dart` flow (feed, comments, search, settings) on the emulator; `integration_test` is already a dev dependency.
+- Changes the Android application ID from `io.github.hidroh.materialistic` to `xyz.vandijke.materialistic`.
 - Requires repository variables `ANDROID_PACKAGE_NAME`, `GOOGLE_PLAY_TRACK`, `GOOGLE_PLAY_RELEASE_STATUS` and secret `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON`.

@@ -94,7 +94,7 @@ jobs:
         uses: r0adkll/upload-google-play@e738b9dd8f2476ea806d921b64aacd24f34515a5 # v1.1.5
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-          packageName: ${{ vars.ANDROID_PACKAGE_NAME || 'io.github.hidroh.materialistic' }}
+          packageName: ${{ vars.ANDROID_PACKAGE_NAME || 'xyz.vandijke.materialistic' }}
           releaseFiles: flutter_app/build/app/outputs/bundle/release/app-release.aab
           track: ${{ vars.GOOGLE_PLAY_TRACK || 'internal' }}
           status: ${{ vars.GOOGLE_PLAY_RELEASE_STATUS || 'completed' }}

@@ -13,7 +13,7 @@
 ## 3. Emulator E2E
 
 - [x] 3.1 Add `.github/workflows/android-e2e.yaml` using `reactivecircus/android-emulator-runner` (API 34, `google_apis`, x86_64, `pixel_6`).
-- [x] 3.2 Add `flutter_app/integration_test/app_e2e_test.dart` boot test and the `integration_test` dev dependency.
+- [x] 3.2 Reuse the existing `flutter_app/integration_test/app_test.dart` end-to-end flow; verified locally on an API 36 emulator.
 - [ ] 3.3 Deepen the E2E test with an authenticated flow against the Go backend (follow-up change).
 
 ## 4. Verification
@@ -21,3 +21,11 @@
 - [x] 4.1 Validate the new workflows with `actionlint`.
 - [x] 4.2 Validate the OpenSpec change with `openspec validate --strict`.
 - [ ] 4.3 Confirm the first Play upload after the service account is configured.
+
+## 5. Package identity
+
+- [x] 5.1 Set `applicationId` and `namespace` to `xyz.vandijke.materialistic` in `flutter_app/android/app/build.gradle.kts`.
+- [x] 5.2 Move `MainActivity` to `xyz/vandijke/materialistic` and update its package declaration.
+- [x] 5.3 Update `ANDROID_PACKAGE_NAME` to `xyz.vandijke.materialistic` in the fleet secrets file and the repository variable.
+- [x] 5.4 Verify the release App Bundle reports `xyz.vandijke.materialistic` (`flutter build appbundle --release`).
+- [ ] 5.5 Create the `xyz.vandijke.materialistic` app record in Play Console before the first automated upload.

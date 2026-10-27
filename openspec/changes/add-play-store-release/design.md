@@ -1,6 +1,6 @@
 ## Context
 
-Materialistic is a Flutter Android app (`flutter_app/`, application ID `io.github.hidroh.materialistic`) released from `.github/workflows/release.yaml` with semantic-release. The release job publishes a GitHub Release and a signed APK. Android signing already uses the shared `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, and `ANDROID_KEY_PASSWORD` secrets, and every repository in this fleet uses the same upload keystore. Google Play requires an App Bundle (`.aab`) with a monotonically increasing version code, uploaded with a service account that has release permissions.
+Materialistic is a Flutter Android app (`flutter_app/`, application ID `xyz.vandijke.materialistic`) released from `.github/workflows/release.yaml` with semantic-release. The release job publishes a GitHub Release and a signed APK. Android signing already uses the shared `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, and `ANDROID_KEY_PASSWORD` secrets, and every repository in this fleet uses the same upload keystore. Google Play requires an App Bundle (`.aab`) with a monotonically increasing version code, uploaded with a service account that has release permissions.
 
 ## Goals / Non-Goals
 
@@ -29,4 +29,6 @@ Materialistic is a Flutter Android app (`flutter_app/`, application ID `io.githu
 - **[Version code collision]** -> A manual re-run of the same tag reuses the same commit count; pass the `build-number` input with a higher value, or bump the tag.
 - **[First Play upload needs manual listing]** -> Google Play requires the app record, package name, and at least one track to exist before API uploads succeed. The first bundle may need to be uploaded manually once; the workflow then takes over.
 - **[Boot test is shallow]** -> It catches startup crashes and missing widgets, not feature regressions. Deeper flows belong in follow-up change proposals.
-- **[Package ownership]** -> The package name must be controlled by the Play developer account that owns `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON`.
+- **[Package identity changed]** -> The Flutter app previously reused the upstream `io.github.hidroh.materialistic` ID. It now ships as `xyz.vandijke.materialistic` so the Play listing belongs to this project rather than to the upstream app, which means the first upload creates a brand-new Play app record instead of updating an existing one.
+- **[Legacy native app still declares the old ID]** -> The original Kotlin app under `app/` (still exercised by `ci.yaml`) keeps `io.github.hidroh.materialistic`. It is not published by this pipeline; the two apps can coexist on a device but must never be uploaded to the same Play listing.
+- **[Track ownership]** -> The Play developer account behind `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` must own the `xyz.vandijke.materialistic` app record before uploads succeed.

@@ -21,7 +21,7 @@ offline archive, PDF viewer and iOS.
 - JDK 17 for Android builds
 - Android SDK with API 36
 
-The Android build uses the same application id (`io.github.hidroh.materialistic`)
+The Android build uses the same application id (`xyz.vandijke.materialistic`)
 as the native app, so install it on a separate device/emulator or uninstall one
 before testing the other.
 

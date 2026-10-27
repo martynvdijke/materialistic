@@ -1,4 +1,4 @@
-package io.github.hidroh.materialistic
+package xyz.vandijke.materialistic
 
 import io.flutter.embedding.android.FlutterActivity
 
