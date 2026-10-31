@@ -1,3 +1,18 @@
+# [3.5.0](https://github.com/martynvdijke/materialistic/compare/v3.4.1...v3.5.0) (2026-10-31)
+
+
+### Bug Fixes
+
+* **android:** allow async file downloads from UI thread ([274d6d4](https://github.com/martynvdijke/materialistic/commit/274d6d40a1b381311fca92d5c29a2e3f2446d508))
+* **android:** compile against API 37 for okhttp 5.5.1 ([9c0a1c1](https://github.com/martynvdijke/materialistic/commit/9c0a1c1036482c8a6be293e7dc24ebcca2a2a8da))
+* **ci:** point flutter setup at root fvmrc ([d2b9146](https://github.com/martynvdijke/materialistic/commit/d2b91467385b757adf9da3e80d36fb41a91fb2e7))
+* **deps:** update all non-major dependencies ([302f2e0](https://github.com/martynvdijke/materialistic/commit/302f2e04e4374d4218263457b25e18b776334e4e))
+
+
+### Features
+
+* **release:** publish android bundles to google play ([5874e2d](https://github.com/martynvdijke/materialistic/commit/5874e2d9232d537bb325c7fc6ec1a6e68d98e48f))
+
 ## [3.4.1](https://github.com/martynvdijke/materialistic/compare/v3.4.0...v3.4.1) (2026-10-24)
 
 # [3.4.0](https://github.com/martynvdijke/materialistic/compare/v3.3.0...v3.4.0) (2026-10-23)
