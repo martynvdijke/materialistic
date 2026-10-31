@@ -38,7 +38,7 @@ jobs:
       - name: Install Android SDK packages
         run: |
           yes | sdkmanager --licenses > /dev/null
-          sdkmanager "platforms;android-36" "build-tools;36.0.0"
+          sdkmanager "platforms;android-37.0" "build-tools;37.0.0"
 
       - name: Test, lint and build native app
         run: ./gradlew test lintDebug assembleRelease --stacktrace
