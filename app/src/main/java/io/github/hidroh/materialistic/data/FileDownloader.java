@@ -3,7 +3,7 @@ package io.github.hidroh.materialistic.data;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.annotation.WorkerThread;
+import androidx.annotation.AnyThread;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,8 @@ public class FileDownloader {
         mMainHandler = new Handler(Looper.getMainLooper());
     }
 
-    @WorkerThread
+    // The network request is asynchronous; only the cache lookup runs synchronously.
+    @AnyThread
     public void downloadFile(String url, String mimeType, FileDownloaderCallback callback) {
         File outputFile = new File(mCacheDir, new File(url).getName());
         if (outputFile.exists()) {
