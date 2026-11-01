@@ -1,3 +1,10 @@
+## [3.5.1](https://github.com/martynvdijke/materialistic/compare/v3.5.0...v3.5.1) (2026-11-01)
+
+
+### Bug Fixes
+
+* **ci:** skip Play Store publish when credentials are missing ([62a3745](https://github.com/martynvdijke/materialistic/commit/62a3745fb4ea19972da221bf2a813ba53adf746c))
+
 # [3.5.0](https://github.com/martynvdijke/materialistic/compare/v3.4.1...v3.5.0) (2026-10-31)
 
 
