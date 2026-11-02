@@ -20,10 +20,9 @@
     <string name="developer_info_text" translatable="false">
         <![CDATA[
             <p>
-            Ha Duy Trung
-            <a href="https://twitter.com/hadt">@hadt</a> /
-            <a href="https://github.com/hidroh">Github</a> /
-            <a href="https://hidroh.github.io">Blog</a>
+            Materialistic for Hacker News is based on the open-source Materialistic
+            project by Ha Duy Trung. This fork is maintained at
+            <a href="https://github.com/martynvdijke/materialistic">github.com/martynvdijke/materialistic</a>.
             </p>
         ]]>
     </string>

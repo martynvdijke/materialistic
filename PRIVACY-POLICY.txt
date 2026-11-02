@@ -1,22 +1,231 @@
-Privacy Policy
+MATERIALISTIC FOR HACKER NEWS — PRIVACY NOTICE (EU/EEA/GDPR)
 
-This Privacy Policy explains how personal data might be collected from users of Materialistic - Hacker News (https://play.google.com/store/apps/details?id=io.github.hidroh.materialistic) - from now on referred to as the app - how they are stored, processed and used by the app.
+Effective date: 1 November 2026
+Last updated: 1 November 2026
 
-1. Your provided data
-As a Hacker News (https://news.ycombinator.com) user, one may optionally provide login credentials to the app. Once provided, your login credentials will be used by the app for the sole purpose of connecting to Hacker News on your behalf, and only when your explicit interactions within the app require such credentials.
+This privacy notice explains how the Android application “Materialistic for
+Hacker News” (the “app”) handles personal data. It applies to the Flutter build
+distributed under application ID xyz.vandijke.materialistic and to the native
+build distributed under application ID io.github.hidroh.materialistic.
 
-Your login credentials if provided will be stored securely under your device's Accounts, and remain there until you explicitly remove them via device's Settings, or when you uninstall the app.
+The app is an open-source Hacker News client. It has no developer-operated
+backend, no user accounts with the publisher, no advertising, and no developer
+analytics or crash-reporting SDK. The publisher does not receive app data
+directly.
 
-2. Required permission
-Due to platform limitation, Android 5.1 and lower device users will see an extra permission called "Identity", or "Accounts", requested by the app. This permission allows an app to:
-- create accounts and set passwords
-- find accounts on the device
+1. WHO IS RESPONSIBLE (DATA CONTROLLER)
 
-This permission is required for the purpose of integrating with device's Accounts for your Hacker News login credentials explained above. The app does not have access or attempt to manipulate any other accounts on your device.
+The data controller is the publisher of Materialistic for Hacker News, as
+identified on the app’s Google Play listing. The publisher is an independent
+developer, not Hacker News or Y Combinator.
 
-Identity/Acount permission is not required for Android 6 and above.
+Privacy contact: [PRIVACY CONTACT — replace this placeholder with a monitored
+privacy email address before publishing the app or policy]. Until that address
+is configured, privacy requests can be raised through the project’s public issue
+tracker at https://github.com/martynvdijke/materialistic/issues (but do not post
+credentials or other sensitive personal data there).
 
-3. Collection of anonymous data for analytics
-While you are interacting with the app, anonymous information regarding your device might be collected for the purpose of crash reporting and usage monitoring related to the app. The information collected helps identify app defects and popular features, that would serve as guidelines for the app's future improvements.
+The repository and published policy are maintained at
+https://github.com/martynvdijke/materialistic. The policy is intended to be
+published at https://martynvdijke.github.io/materialistic/privacy.html. GitHub
+Pages must be configured to serve the repository’s /docs directory for that URL
+to work.
 
-Analytics data collected includes solely those permitted by Android platform without any extra permissions, and are not shared with any other third party services except the ones that the app relies on for data collection.
+2. WHAT THE APP PROCESSES, WHERE, AND WHY
+
+A. Data kept only on your device
+
+The app stores the following locally:
+- Your optional Hacker News username and password, so the app can act on your
+  behalf when you log in, vote, comment, or submit. On Android the credentials
+  are kept in the platform account store (native app) or in encrypted secure
+  storage backed by the Android Keystore (Flutter app). They are not sent to the
+  publisher.
+- Favorites/saved stories, read history, search history, cached reader content,
+  and app settings.
+
+This local processing is necessary to provide the app’s core features at your
+request (GDPR Article 6(1)(b)) and is based on the publisher’s legitimate
+interest in operating and securing the app (Article 6(1)(f)). Local data is not
+accessible to the publisher.
+
+B. Data sent directly to Hacker News
+
+When you use Hacker News features, the app communicates directly with Hacker
+News servers:
+- The official Hacker News Firebase API (https://hacker-news.firebaseio.com) is
+  used to load stories, comments, and profiles. Requests include ordinary
+  technical data such as your IP address and user agent, but no Hacker News
+  credentials.
+- The Hacker News website (https://news.ycombinator.com) is used for login,
+  voting, commenting, submitting, and account-related actions. If you log in or
+  post, your Hacker News username and password (or session data) are sent
+  directly to Hacker News over HTTPS. Hacker News receives this data as an
+  independent service and controller; its own privacy practices apply.
+
+These transfers are necessary to perform the features you request (Article
+6(1)(b)) and to operate the app securely (Article 6(1)(f)).
+
+C. Search
+
+Search queries are sent to the Algolia Hacker News Search API
+(https://hn.algolia.com) to return results. Algolia receives the query and
+ordinary technical data such as your IP address. Search history is stored only
+on your device. This processing is necessary for the search feature you request
+(Article 6(1)(b)) and for the publisher’s legitimate interest in providing search
+(Article 6(1)(f)).
+
+D. Reader / readability service
+
+If the optional reader feature is configured and you choose to open an article in
+the reader, the article URL may be sent to the Mercury Web Parser API
+(https://mercury.postlight.com) to extract readable content. Mercury receives the
+URL and ordinary technical data such as your IP address. If you do not use the
+reader, no article URL is sent to Mercury. This processing occurs at your request
+(Article 6(1)(b)); where consent is required, your decision to use the reader
+provides that consent (Article 6(1)(a)).
+
+E. Optional feedback to GitHub
+
+The app has an optional feedback form. If you choose to send feedback, the app
+sends your feedback title and text, together with your device manufacturer and
+model, Android SDK level, and app version, to GitHub (https://github.com) and
+creates a public issue in the project’s GitHub repository. Feedback is public;
+do not include sensitive personal data. This transfer occurs only when you
+submit the form (Article 6(1)(a), consent, or Article 6(1)(b) if you request the
+support service). GitHub is an independent service and its privacy practices
+apply.
+
+F. Websites you open
+
+If you tap a link or open an article, the app hands the URL to your browser or an
+in-app browser. The destination website and your browser process that request
+under their own privacy policies. The publisher does not receive that browsing
+data.
+
+3. RECIPIENTS AND INTERNATIONAL TRANSFERS
+
+The publisher does not sell or rent personal data and does not share data with
+advertisers, analytics providers, or data brokers. The recipients are the
+third-party services described above:
+- Hacker News / Y Combinator (United States)
+- Algolia (United States and/or France)
+- Mercury Web Parser / Postlight (United States), if the reader is configured
+- GitHub / Microsoft (United States), only for feedback you submit
+- Websites you choose to open
+
+These recipients may process data outside the EU/EEA, mainly in the United
+States. Where required, transfers rely on appropriate safeguards such as the
+European Commission’s Standard Contractual Clauses and/or the recipient’s
+certification under the EU–U.S. Data Privacy Framework. The publisher does not
+control these third parties; their own safeguards and privacy notices apply.
+You can contact the publisher using the details above for more information about
+the safeguards used.
+
+4. RETENTION
+
+- On-device data (credentials, favorites, read history, search history, cached
+  content, settings) remains on your device until you clear it in the app, clear
+  the app’s storage in Android settings, or uninstall the app. Logging out
+  removes the stored Hacker News credentials.
+- Hacker News retains account, post, vote, and comment data according to its own
+  policies. The publisher cannot access or delete Hacker News data.
+- Algolia and Mercury retain request data according to their own policies.
+- GitHub retains public feedback issues until they are deleted. You can edit or
+  request deletion of your issue through GitHub, or contact the publisher using
+  the details above.
+
+The publisher does not maintain a copy of any of this data.
+
+5. YOUR RIGHTS
+
+If GDPR applies, you have the right to:
+- access your personal data;
+- rectify inaccurate data;
+- erase your data (“right to be forgotten”);
+- restrict processing;
+- object to processing based on legitimate interests;
+- data portability;
+- withdraw consent at any time, without affecting the lawfulness of processing
+  before withdrawal;
+- lodge a complaint with a supervisory authority.
+
+Because the publisher holds no server-side data about you, many requests can be
+fulfilled directly on your device (for example by clearing history or logging
+out) or by contacting the relevant third party. Requests concerning Hacker News
+account data must be made to Hacker News. Requests concerning GitHub feedback
+can be made through GitHub or to the publisher. You can contact the publisher at
+the privacy contact above. You also have the right to complain to your local
+data protection authority. If the publisher is established in the Netherlands,
+the lead authority may be the Autoriteit Persoonsgegevens.
+
+6. CHILDREN
+
+The app is not directed to children under 16 and the publisher does not
+knowingly collect personal data from children under 16. Hacker News content and
+linked websites may not be suitable for children. If you believe a child has
+provided personal data to the publisher, contact the privacy contact above.
+
+7. SECURITY
+
+The app uses HTTPS for network requests and relies on Android’s account store or
+encrypted secure storage for Hacker News credentials. The app does not log
+credentials. No method of transmission or storage is completely secure, so
+absolute security cannot be guaranteed.
+
+8. NO ADS, NO SALE, NO DEVELOPER ANALYTICS
+
+The app contains no advertising SDK, no developer-operated analytics, no
+crash-reporting SDK, and no tracking. The app does not use automated
+decision-making or profiling. The publisher does not sell personal data.
+Google Play itself may collect install, crash, and performance data under
+Google’s own terms; that data is controlled by Google, not the publisher.
+
+9. DELETING YOUR DATA AND YOUR HACKER NEWS ACCOUNT
+
+- Log out in the app to remove the stored Hacker News username and password from
+  your device (native: account settings / log out; Flutter: Settings → Delete
+  local account data or the account/logout action).
+- Clear read history, search history, and favorites in the app’s Settings/Data
+  section.
+- Uninstall the app, or clear its storage in Android Settings → Apps →
+  Materialistic → Storage, to remove all local app data.
+- The app cannot delete your Hacker News account. Hacker News account deletion is
+  handled by Hacker News, not by this app. See the Hacker News FAQ at
+  https://news.ycombinator.com/newsfaq.html and contact hn@ycombinator.com for
+  privacy or account-deletion requests. You can also review your account at
+  https://news.ycombinator.com/user.
+
+10. GOOGLE PLAY DATA SAFETY SUMMARY
+
+The Play Console Data safety declaration should match this notice:
+- The developer collects no data on a developer server. There is no developer
+  backend.
+- Hacker News username and password are optional, stored on-device, and sent
+  directly to Hacker News over HTTPS only when you log in or perform an action
+  that needs them. In Play Console terms, declare the credential/user-ID data as
+  collected for app functionality, optional, encrypted in transit, not used for
+  tracking, and not sold. Because the data goes to Hacker News, disclose Hacker
+  News as a third-party recipient/service provider as required by the Console.
+- Search queries are sent to Algolia. Declare in-app search history only if the
+  Console treats this transmission as collection; it is used for app
+  functionality, is not linked by the publisher to an identity, and is not sold.
+- Favorites, read history, and local search history stay on-device and are not
+  collected by the developer.
+- Optional feedback sends your feedback text plus device manufacturer/model,
+  Android SDK level, and app version to GitHub as a public issue. Declare this
+  user-initiated transfer (user-generated content and technical/app info) as
+  optional, not used for tracking, and not sold.
+- No advertising, no developer analytics, no crash reporting, no data sale.
+
+11. CHANGES
+
+The publisher may update this notice to reflect changes to the app or the law.
+The effective date above will be updated. Material changes will be communicated
+through the app, the repository, or the Play Store listing.
+
+12. CONTACT
+
+Privacy contact: [PRIVACY CONTACT — replace before publication]
+Repository: https://github.com/martynvdijke/materialistic
+Policy URL: https://martynvdijke.github.io/materialistic/privacy.html

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/constants.dart';
 import '../../core/providers.dart';
 import '../../core/settings/settings_controller.dart';
 import '../../l10n/app_localizations.dart';
@@ -136,6 +137,12 @@ class SettingsScreen extends ConsumerWidget {
               }
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.delete_forever_outlined),
+            title: Text(l10n.deleteLocalData),
+            subtitle: Text(l10n.deleteLocalDataSummary),
+            onTap: () => _deleteLocalData(context, ref, l10n),
+          ),
           const Divider(),
           _SectionHeader(l10n.about),
           ListTile(
@@ -144,11 +151,27 @@ class SettingsScreen extends ConsumerWidget {
             subtitle: const Text('3.4.0 (100)'),
           ),
           ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: Text(l10n.privacyPolicy),
+            onTap: () => launchUrl(
+              Uri.parse(AppConstants.privacyPolicyUrl),
+              mode: LaunchMode.externalApplication,
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.gavel_outlined),
+            title: Text(l10n.termsOfService),
+            onTap: () => launchUrl(
+              Uri.parse(AppConstants.termsOfServiceUrl),
+              mode: LaunchMode.externalApplication,
+            ),
+          ),
+          ListTile(
             leading: const Icon(Icons.code),
             title: Text(l10n.sourceCode),
-            subtitle: const Text('github.com/hidroh/materialistic'),
+            subtitle: const Text('github.com/martynvdijke/materialistic'),
             onTap: () => launchUrl(
-              Uri.parse('https://github.com/hidroh/materialistic'),
+              Uri.parse(AppConstants.sourceCodeUrl),
               mode: LaunchMode.externalApplication,
             ),
           ),
@@ -165,6 +188,53 @@ class SettingsScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _deleteLocalData(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deleteLocalDataTitle),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.deleteLocalDataMessage),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () => launchUrl(
+                  Uri.parse(AppConstants.hnAccountDeletionUrl),
+                  mode: LaunchMode.externalApplication,
+                ),
+                child: Text(l10n.hnAccountHelp),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l10n.deleteLocalDataConfirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    await ref.read(authControllerProvider).logout();
+    await ref.read(databaseProvider).clearAllLocalData();
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(l10n.localDataDeleted)));
   }
 
   String _themeLabel(ThemeStyle value, AppLocalizations l10n) =>

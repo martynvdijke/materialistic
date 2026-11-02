@@ -125,6 +125,16 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<void> clearSearchHistory() => delete(searchHistory).go();
+
+  /// Removes all local user data while keeping the schema intact.
+  Future<void> clearAllLocalData() async {
+    await transaction(() async {
+      await delete(favorites).go();
+      await delete(readItems).go();
+      await delete(readableItems).go();
+      await delete(searchHistory).go();
+    });
+  }
 }
 
 LazyDatabase _openConnection() {

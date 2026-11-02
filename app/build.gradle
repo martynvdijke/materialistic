@@ -19,6 +19,11 @@ android {
         buildConfigField "int", "LATEST_RELEASE", "77"
         buildConfigField "String", "GITHUB_TOKEN", "\"\""
         buildConfigField "String", "MERCURY_TOKEN", "\"\""
+        // Published legal documents. GitHub Pages must serve the repo's /docs
+        // directory for these URLs to resolve.
+        buildConfigField "String", "PRIVACY_POLICY_URL", "\"https://martynvdijke.github.io/materialistic/privacy.html\""
+        buildConfigField "String", "TERMS_OF_SERVICE_URL", "\"https://martynvdijke.github.io/materialistic/terms.html\""
+        buildConfigField "String", "LICENSES_URL", "\"https://martynvdijke.github.io/materialistic/licenses.html\""
         proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
                 'proguard-rules.pro',
                 'proguard-square.pro',

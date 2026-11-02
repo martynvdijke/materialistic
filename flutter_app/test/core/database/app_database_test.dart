@@ -53,6 +53,20 @@ void main() {
     expect(await db.readable(5), '<p>updated</p>');
   });
 
+  test('clears all local user data', () async {
+    await db.addFavorite(const Item(id: 10, title: 'Story'));
+    await db.markRead(1);
+    await db.saveReadable(5, '<p>content</p>');
+    await db.addSearch('flutter');
+
+    await db.clearAllLocalData();
+
+    expect(await db.allFavorites(), isEmpty);
+    expect(await db.isRead(1), isFalse);
+    expect(await db.readable(5), isNull);
+    expect(await db.watchSearchHistory().first, isEmpty);
+  });
+
   test('deduplicates search history and clears it', () async {
     await db.addSearch('flutter');
     await db.addSearch('  flutter  ');

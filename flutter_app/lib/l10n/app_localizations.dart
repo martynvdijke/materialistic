@@ -133,6 +133,15 @@ class AppLocalizations {
   String get extraLarge => _t('extraLarge');
   String get version => _t('version');
   String get sourceCode => _t('sourceCode');
+  String get privacyPolicy => _t('privacyPolicy');
+  String get termsOfService => _t('termsOfService');
+  String get deleteLocalData => _t('deleteLocalData');
+  String get deleteLocalDataSummary => _t('deleteLocalDataSummary');
+  String get deleteLocalDataTitle => _t('deleteLocalDataTitle');
+  String get deleteLocalDataMessage => _t('deleteLocalDataMessage');
+  String get deleteLocalDataConfirm => _t('deleteLocalDataConfirm');
+  String get hnAccountHelp => _t('hnAccountHelp');
+  String get localDataDeleted => _t('localDataDeleted');
   String get noConnection => _t('noConnection');
   String get commentHint => _t('commentHint');
   String get submitted => _t('submitted');
@@ -271,6 +280,16 @@ class AppLocalizations {
     'extraLarge': 'Extra large',
     'version': 'Version',
     'sourceCode': 'Source code',
+    'privacyPolicy': 'Privacy policy',
+    'termsOfService': 'Terms of service',
+    'deleteLocalData': 'Delete local account data',
+    'deleteLocalDataSummary':
+        'Logs out and clears stored credentials, favorites, and history',
+    'deleteLocalDataTitle': 'Delete local account data?',
+    'deleteLocalDataMessage': 'This logs you out, removes your Hacker News username and password from this device, and clears favorites, read history, and search history. It does not delete your Hacker News account; Hacker News handles account deletion separately.',
+    'deleteLocalDataConfirm': 'Delete local data',
+    'hnAccountHelp': 'Hacker News account help',
+    'localDataDeleted': 'Local account data deleted',
     'noConnection': 'Check your connection and try again',
     'commentHint': 'Write a comment…',
     'submitted': 'Submitted',
@@ -404,6 +423,16 @@ class AppLocalizations {
     'extraLarge': 'Muy grande',
     'version': 'Versión',
     'sourceCode': 'Código fuente',
+    'privacyPolicy': 'Política de privacidad',
+    'termsOfService': 'Términos del servicio',
+    'deleteLocalData': 'Eliminar datos locales de la cuenta',
+    'deleteLocalDataSummary':
+        'Cierra la sesión y borra credenciales, favoritos e historial',
+    'deleteLocalDataTitle': '¿Eliminar los datos locales de la cuenta?',
+    'deleteLocalDataMessage': 'Esto cierra tu sesión, elimina tu usuario y contraseña de Hacker News de este dispositivo y borra favoritos, historial de lectura e historial de búsqueda. No elimina tu cuenta de Hacker News; Hacker News gestiona la eliminación de cuentas por separado.',
+    'deleteLocalDataConfirm': 'Eliminar datos locales',
+    'hnAccountHelp': 'Ayuda con la cuenta de Hacker News',
+    'localDataDeleted': 'Datos locales de la cuenta eliminados',
     'noConnection': 'Comprueba tu conexión e inténtalo de nuevo',
     'commentHint': 'Escribe un comentario…',
     'submitted': 'Enviado',
@@ -537,6 +566,15 @@ class AppLocalizations {
     'extraLarge': '特大',
     'version': '版本',
     'sourceCode': '源代码',
+    'privacyPolicy': '隐私政策',
+    'termsOfService': '服务条款',
+    'deleteLocalData': '删除本地账户数据',
+    'deleteLocalDataSummary': '退出登录并清除已保存的凭据、收藏和记录',
+    'deleteLocalDataTitle': '删除本地账户数据？',
+    'deleteLocalDataMessage': '这将退出登录，从本设备删除 Hacker News 用户名和密码，并清除收藏、阅读记录和搜索记录。这不会删除你的 Hacker News 账户；Hacker News 会单独处理账户删除。',
+    'deleteLocalDataConfirm': '删除本地数据',
+    'hnAccountHelp': 'Hacker News 账户帮助',
+    'localDataDeleted': '本地账户数据已删除',
     'noConnection': '请检查网络连接后重试',
     'commentHint': '写下评论…',
     'submitted': '已提交',

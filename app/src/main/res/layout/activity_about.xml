@@ -85,6 +85,14 @@
                 style="@style/textContentStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/terms_of_service"
+                style="@style/HeadlineTextStyle" />
+            <TextView
+                android:id="@id/text_terms_of_service"
+                style="@style/textContentStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

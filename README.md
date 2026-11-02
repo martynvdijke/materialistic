@@ -3,6 +3,18 @@ Material design [Hacker News] client for Android, uses official [HackerNews/API]
 
 [![Get it on Google Play][Play Store Badge]][Play Store]
 
+### Privacy and legal
+
+- [Privacy notice](PRIVACY-POLICY.txt) / [published HTML](docs/privacy.html)
+- [Terms of service](docs/terms.html)
+- [Google Play submission notes](docs/play-store.md)
+
+The published policy URL is <https://martynvdijke.github.io/materialistic/privacy.html>.
+GitHub Pages must be configured to serve this repository’s `/docs` directory.
+The app has no developer backend, no advertising, and no developer analytics or
+crash-reporting SDK. Hacker News credentials are stored on-device and sent only
+to Hacker News when you log in or perform an account action.
+
 ### Flutter rewrite
 A phased Flutter rewrite lives in [`flutter_app/`](flutter_app/). It targets Android parity first and is developed alongside the existing native app, which remains the shipping implementation until cutover. See the [migration design](docs/superpowers/specs/2026-10-23-flutter-migration-design.md) and the [Flutter app README](flutter_app/README.md).
 
@@ -66,7 +78,7 @@ Contributions are always welcome. Please make sure you read [Contributing notes]
 
 [Hacker News]: https://news.ycombinator.com/
 [HackerNews/API]: https://github.com/HackerNews/API
-[Play Store]: https://play.google.com/store/apps/details?id=io.github.hidroh.materialistic&referrer=utm_source%3Dgithub
+[Play Store]: https://play.google.com/store/apps/details?id=xyz.vandijke.materialistic&referrer=utm_source%3Dgithub
 [Play Store Badge]: https://play.google.com/intl/en_us/badges/images/badge_new.png
 [Algolia Hacker News Search API]: https://github.com/algolia/hn-search
 [Mercury Web Parser API]: https://mercury.postlight.com/web-parser/
