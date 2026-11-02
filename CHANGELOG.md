@@ -1,3 +1,10 @@
+# [3.6.0](https://github.com/martynvdijke/materialistic/compare/v3.5.1...v3.6.0) (2026-11-02)
+
+
+### Features
+
+* **legal:** GDPR/Play compliance for Materialistic (no backend) ([86deb7e](https://github.com/martynvdijke/materialistic/commit/86deb7e5dbd312649f6130bdf09dcda7920ed11a))
+
 ## [3.5.1](https://github.com/martynvdijke/materialistic/compare/v3.5.0...v3.5.1) (2026-11-01)
 
 
