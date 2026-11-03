@@ -1,7 +1,7 @@
 name: materialistic
 description: "Material design Hacker News client."
 publish_to: 'none'
-version: 3.6.1+3006001
+version: 3.6.2+3006002
 
 environment:
   sdk: ^3.13.5
