@@ -1,3 +1,10 @@
+# [3.8.0](https://github.com/martynvdijke/materialistic/compare/v3.7.0...v3.8.0) (2026-11-08)
+
+
+### Features
+
+* **mobile:** share-to-submit, reading preferences and story navigation ([241d379](https://github.com/martynvdijke/materialistic/commit/241d379445532bcccd8958a10c6f0a818d856387))
+
 # [3.7.0](https://github.com/martynvdijke/materialistic/compare/v3.6.4...v3.7.0) (2026-11-08)
 
 
