@@ -1,3 +1,10 @@
+# [3.7.0](https://github.com/martynvdijke/materialistic/compare/v3.6.4...v3.7.0) (2026-11-08)
+
+
+### Features
+
+* **mobile:** add OpenTelemetry tracing to the Flutter app ([1e6dea4](https://github.com/martynvdijke/materialistic/commit/1e6dea41ff10702dc20285c74fa67904033c2101))
+
 ## [3.6.4](https://github.com/martynvdijke/materialistic/compare/v3.6.3...v3.6.4) (2026-11-06)
 
 ## [3.6.3](https://github.com/martynvdijke/materialistic/compare/v3.6.2...v3.6.3) (2026-11-05)
