@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -7,6 +9,7 @@ import 'package:sqlite3/sqlite3.dart';
 
 import 'app.dart';
 import 'core/providers.dart';
+import 'src/telemetry/telemetry.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +21,10 @@ Future<void> main() async {
   final tempDirectory = await getTemporaryDirectory();
   sqlite3.tempDirectory = tempDirectory.path;
   final preferences = await SharedPreferences.getInstance();
+
+  // Telemetry is configured at build time with --dart-define; it is a no-op
+  // unless an OTLP endpoint was compiled in. Never block startup on it.
+  unawaited(Telemetry.instance.start());
 
   runApp(
     ProviderScope(
