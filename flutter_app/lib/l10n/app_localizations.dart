@@ -163,6 +163,23 @@ class AppLocalizations {
   String get optional => _t('optional');
   String get hnNote => _t('hnNote');
   String get lastScreen => _t('lastScreen');
+  String get lineSpacing => _t('lineSpacing');
+  String get compact => _t('compact');
+  String get cozy => _t('cozy');
+  String get comfortable => _t('comfortable');
+  String get longComment => _t('longComment');
+  String get maxLines3 => _t('maxLines3');
+  String get maxLines4 => _t('maxLines4');
+  String get maxLines5 => _t('maxLines5');
+  String get fullContent => _t('fullContent');
+  String get blockAds => _t('blockAds');
+  String get blockAdsSummary => _t('blockAdsSummary');
+  String get highlightUpdated => _t('highlightUpdated');
+  String get highlightUpdatedSummary => _t('highlightUpdatedSummary');
+  String get defaultOpen => _t('defaultOpen');
+  String get storyComments => _t('storyComments');
+  String get storyArticle => _t('storyArticle');
+  String get storyReadability => _t('storyReadability');
 
   static const Map<String, Map<String, String>> _values = {
     'en': _en,
@@ -311,6 +328,23 @@ class AppLocalizations {
     'optional': 'optional',
     'hnNote': 'Hacker News does not display email addresses publicly.',
     'lastScreen': 'Last used screen',
+    'lineSpacing': 'Line spacing',
+    'compact': 'Compact',
+    'cozy': 'Cozy',
+    'comfortable': 'Comfortable',
+    'longComment': 'Long comments',
+    'maxLines3': '3 lines',
+    'maxLines4': '4 lines',
+    'maxLines5': '5 lines',
+    'fullContent': 'Full content',
+    'blockAds': 'Block ads',
+    'blockAdsSummary': 'Simple ad blocker for the in-app browser',
+    'highlightUpdated': 'Highlight updated stories',
+    'highlightUpdatedSummary': 'Show changes from the last refresh',
+    'defaultOpen': 'Default open',
+    'storyComments': 'Comments',
+    'storyArticle': 'Article',
+    'storyReadability': 'Readability',
   };
 
   static const Map<String, String> _es = {
@@ -454,6 +488,23 @@ class AppLocalizations {
     'optional': 'opcional',
     'hnNote': 'Hacker News no muestra las direcciones de correo públicamente.',
     'lastScreen': 'Última pantalla usada',
+    'lineSpacing': 'Espaciado entre líneas',
+    'compact': 'Compacto',
+    'cozy': 'Amplio',
+    'comfortable': 'Cómodo',
+    'longComment': 'Comentarios largos',
+    'maxLines3': '3 líneas',
+    'maxLines4': '4 líneas',
+    'maxLines5': '5 líneas',
+    'fullContent': 'Contenido completo',
+    'blockAds': 'Bloquear anuncios',
+    'blockAdsSummary': 'Bloqueador simple para el navegador integrado',
+    'highlightUpdated': 'Resaltar historias actualizadas',
+    'highlightUpdatedSummary': 'Muestra cambios desde la última actualización',
+    'defaultOpen': 'Abrir por defecto',
+    'storyComments': 'Comentarios',
+    'storyArticle': 'Artículo',
+    'storyReadability': 'Modo lectura',
   };
 
   static const Map<String, String> _zh = {
@@ -596,6 +647,23 @@ class AppLocalizations {
     'optional': '可选',
     'hnNote': 'Hacker News 不会公开显示邮箱地址。',
     'lastScreen': '上次使用的页面',
+    'lineSpacing': '行间距',
+    'compact': '紧凑',
+    'cozy': '宽松',
+    'comfortable': '舒适',
+    'longComment': '长评论',
+    'maxLines3': '3 行',
+    'maxLines4': '4 行',
+    'maxLines5': '5 行',
+    'fullContent': '完整内容',
+    'blockAds': '拦截广告',
+    'blockAdsSummary': '为应用内浏览器启用简易广告拦截',
+    'highlightUpdated': '高亮更新的故事',
+    'highlightUpdatedSummary': '显示自上次刷新以来的变化',
+    'defaultOpen': '默认打开',
+    'storyComments': '评论',
+    'storyArticle': '文章',
+    'storyReadability': '阅读模式',
   };
 }
 

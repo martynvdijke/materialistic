@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/database/app_database.dart';
 import '../../core/models/item.dart';
 import '../../core/providers.dart';
+import '../../core/story_navigation.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/story_tile.dart';
 
@@ -127,6 +128,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Widget _buildBody(AppLocalizations l10n) {
+    final settings = ref.watch(settingsProvider).settings;
     if (!_searched) {
       return StreamBuilder<List<SearchHistoryRow>>(
         stream: _historyStream,
@@ -217,12 +219,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         return StoryTile(
           item: item,
           isRead: false,
-          onTap: () => context.push('/item/${item.id}'),
-          onComments: () => context.push('/item/${item.id}'),
+          swipeActions: settings.swipeActions,
+          onTap: () => openStory(context, ref, item),
+          onComments: () => openComments(context, item),
+          onSwipeSave: () => toggleFavorite(context, ref, item),
+          onSwipeVote: () => upvoteStory(context, ref, item),
           onOpenLink: item.hasUrl
-              ? () => context.push(
-                  '/reader?url=${Uri.encodeComponent(item.url!)}&title=${Uri.encodeComponent(item.title ?? '')}',
-                )
+              ? () => openStoryLink(context, ref, item)
               : null,
           onProfile: item.by == null
               ? null

@@ -50,7 +50,9 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
         ref.read(databaseProvider).markRead(item.id);
       }
       if (item != null && item.kids.isNotEmpty) {
-        final comments = await ref.read(commentRepositoryProvider).load(item);
+        final comments = await ref
+            .read(commentRepositoryProvider)
+            .load(item, lazyLoad: ref.read(settingsProvider).settings.lazyLoad);
         if (!mounted) return;
         setState(() {
           _comments = comments;
@@ -193,7 +195,9 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
       _loadingComments = true;
       _comments = const [];
     });
-    final comments = await ref.read(commentRepositoryProvider).load(item);
+    final comments = await ref
+        .read(commentRepositoryProvider)
+        .load(item, lazyLoad: ref.read(settingsProvider).settings.lazyLoad);
     if (!mounted) return;
     setState(() {
       _comments = comments;
@@ -257,6 +261,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
 
   Widget _buildBody(AppLocalizations l10n) {
     if (_loading) return const Center(child: CircularProgressIndicator());
+    final settings = ref.watch(settingsProvider).settings;
     if (_error != null || _item == null) {
       return Center(
         child: Column(
@@ -308,6 +313,10 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
           return _CommentTile(
             node: node,
             collapsed: _collapsed.contains(node.item.id),
+            colorCode: settings.colorCode,
+            threadIndicator: settings.threadIndicator,
+            lineHeight: 1.45 * settings.lineSpacing.factor,
+            maxLines: settings.maxCommentLines.lines,
             onToggle: () {
               setState(() {
                 if (!_collapsed.remove(node.item.id)) {
@@ -422,6 +431,10 @@ class _CommentTile extends StatelessWidget {
   const _CommentTile({
     required this.node,
     required this.collapsed,
+    required this.colorCode,
+    required this.threadIndicator,
+    required this.lineHeight,
+    required this.maxLines,
     required this.onToggle,
     required this.onReply,
     required this.onUpvote,
@@ -429,6 +442,10 @@ class _CommentTile extends StatelessWidget {
 
   final CommentNode node;
   final bool collapsed;
+  final bool colorCode;
+  final bool threadIndicator;
+  final double lineHeight;
+  final int maxLines;
   final VoidCallback onToggle;
   final VoidCallback onReply;
   final VoidCallback onUpvote;
@@ -439,8 +456,61 @@ class _CommentTile extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final depth = node.depth.clamp(0, 8);
-    final color = _usernameColor(theme, item.by ?? '');
     final muted = theme.colorScheme.onSurfaceVariant;
+    final color = colorCode ? _usernameColor(theme, item.by ?? '') : muted;
+
+    final content = Padding(
+      padding: const EdgeInsets.fromLTRB(10, 10, 8, 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: onToggle,
+            child: Row(
+              children: [
+                Text(
+                  item.by ?? l10n.unknown,
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  _age(item, l10n),
+                  style: theme.textTheme.bodySmall?.copyWith(color: muted),
+                ),
+                if (collapsed) ...[
+                  const SizedBox(width: 8),
+                  Text(
+                    '[+${node.totalCount}]',
+                    style: theme.textTheme.bodySmall?.copyWith(color: muted),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          if (!collapsed) ...[
+            const SizedBox(height: 4),
+            _CommentBody(
+              html: item.text ?? '',
+              lineHeight: lineHeight,
+              maxLines: maxLines,
+            ),
+            Row(
+              children: [
+                TextButton(onPressed: onReply, child: Text(l10n.reply)),
+                TextButton(onPressed: onUpvote, child: Text(l10n.upvote)),
+              ],
+            ),
+          ],
+        ],
+      ),
+    );
+
+    if (!threadIndicator) {
+      return Row(children: [Expanded(child: content)]);
+    }
 
     return IntrinsicHeight(
       child: Row(
@@ -464,59 +534,7 @@ class _CommentTile extends StatelessWidget {
                 ],
               ),
             ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 8, 6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: onToggle,
-                    child: Row(
-                      children: [
-                        Text(
-                          item.by ?? l10n.unknown,
-                          style: theme.textTheme.labelLarge?.copyWith(
-                            color: color,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          _age(item, l10n),
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: muted,
-                          ),
-                        ),
-                        if (collapsed) ...[
-                          const SizedBox(width: 8),
-                          Text(
-                            '[+${node.totalCount}]',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: muted,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                  if (!collapsed) ...[
-                    const SizedBox(height: 4),
-                    HnHtml(html: item.text ?? ''),
-                    Row(
-                      children: [
-                        TextButton(onPressed: onReply, child: Text(l10n.reply)),
-                        TextButton(
-                          onPressed: onUpvote,
-                          child: Text(l10n.upvote),
-                        ),
-                      ],
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
+          Expanded(child: content),
         ],
       ),
     );
@@ -545,5 +563,62 @@ class _CommentTile extends StatelessWidget {
       const Color(0xFF4DB6AC),
     ];
     return colors[hash % colors.length];
+  }
+}
+
+class _CommentBody extends StatefulWidget {
+  const _CommentBody({
+    required this.html,
+    required this.lineHeight,
+    required this.maxLines,
+  });
+
+  final String html;
+  final double lineHeight;
+  final int maxLines;
+
+  @override
+  State<_CommentBody> createState() => _CommentBodyState();
+}
+
+class _CommentBodyState extends State<_CommentBody> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final plainLength = widget.html.replaceAll(RegExp('<[^>]+>'), '').length;
+    final bodySize = theme.textTheme.bodyMedium?.fontSize ?? 14;
+    final limit = widget.maxLines;
+    final truncated = limit > 0 && plainLength > limit * 90;
+
+    if (!truncated) {
+      return HnHtml(html: widget.html, lineHeight: widget.lineHeight);
+    }
+
+    final maxHeight = bodySize * widget.lineHeight * limit + 4;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (_expanded)
+          HnHtml(html: widget.html, lineHeight: widget.lineHeight)
+        else
+          ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: maxHeight),
+            child: ClipRect(
+              child: HnHtml(html: widget.html, lineHeight: widget.lineHeight),
+            ),
+          ),
+        TextButton(
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            visualDensity: VisualDensity.compact,
+          ),
+          onPressed: () => setState(() => _expanded = !_expanded),
+          child: Text(_expanded ? l10n.collapse : l10n.expand),
+        ),
+      ],
+    );
   }
 }

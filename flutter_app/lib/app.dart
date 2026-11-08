@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/providers.dart';
 import 'core/router.dart';
 import 'core/settings/settings_controller.dart';
+import 'core/share_intent.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
 
@@ -93,6 +94,10 @@ class _DeepLinkListenerState extends ConsumerState<_DeepLinkListener> {
     super.initState();
     _appLinks.getInitialLink().then(_handle).catchError((_) {});
     _subscription = _appLinks.uriLinkStream.listen(_handle, onError: (_) {});
+    ShareIntentService.listen(_handleSharedText);
+    ShareIntentService.initialText().then((text) {
+      if (text != null) _handleSharedText(text);
+    });
   }
 
   @override
@@ -122,6 +127,21 @@ class _DeepLinkListenerState extends ConsumerState<_DeepLinkListener> {
         router.push('/user/${uri.pathSegments.first}');
       }
     }
+  }
+
+  void _handleSharedText(String raw) {
+    if (!mounted) return;
+    final shared = ShareIntentService.parse(raw);
+    final params = <String, String>{
+      if (shared.url != null) 'url': shared.url!,
+      if (shared.text != null) 'text': shared.text!,
+      if (shared.title != null) 'title': shared.title!,
+    };
+    if (params.isEmpty) return;
+    final location = Uri(path: '/submit', queryParameters: params).toString();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) ref.read(routerProvider).push(location);
+    });
   }
 
   @override

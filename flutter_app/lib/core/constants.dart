@@ -8,7 +8,10 @@ abstract final class AppConstants {
   static const userWebUrl = '$hnWebUrl/user?id=';
   static const pageSize = 20;
   static const maxCommentDepth = 12;
-  static const userAgent = 'Materialistic/3.4.0 (Flutter)';
+  static const version = '3.5.1';
+  static const buildNumber = '3005001';
+  static const versionDisplay = '$version ($buildNumber)';
+  static const userAgent = 'Materialistic/$version (Flutter)';
 
   // Published legal documents. GitHub Pages must serve the repo's /docs
   // directory for these URLs to resolve.

@@ -7,10 +7,11 @@ import '../core/utils/url_utils.dart';
 
 /// Renders the small HTML subset returned by the Hacker News API.
 class HnHtml extends StatelessWidget {
-  const HnHtml({super.key, required this.html, this.fontSize});
+  const HnHtml({super.key, required this.html, this.fontSize, this.lineHeight});
 
   final String html;
   final double? fontSize;
+  final double? lineHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class HnHtml extends StatelessWidget {
           padding: HtmlPaddings.zero,
           color: theme.colorScheme.onSurface,
           fontSize: FontSize(bodySize),
-          lineHeight: LineHeight.number(1.45),
+          lineHeight: LineHeight.number(lineHeight ?? 1.45),
         ),
         'p': Style(margin: Margins.only(top: 8, bottom: 8)),
         'a': Style(

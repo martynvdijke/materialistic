@@ -41,6 +41,18 @@ class SettingsScreen extends ConsumerWidget {
             onTap: () => _pickTextSize(context, controller, l10n),
           ),
           ListTile(
+            leading: const Icon(Icons.format_line_spacing),
+            title: Text(l10n.lineSpacing),
+            subtitle: Text(_lineSpacingLabel(settings.lineSpacing, l10n)),
+            onTap: () => _pickLineSpacing(context, controller, l10n),
+          ),
+          ListTile(
+            leading: const Icon(Icons.notes),
+            title: Text(l10n.longComment),
+            subtitle: Text(_maxLinesLabel(settings.maxCommentLines, l10n)),
+            onTap: () => _pickMaxLines(context, controller, l10n),
+          ),
+          ListTile(
             leading: const Icon(Icons.font_download_outlined),
             title: Text(l10n.font),
             subtitle: Text(_fontLabel(settings.font, l10n)),
@@ -52,6 +64,12 @@ class SettingsScreen extends ConsumerWidget {
             subtitle: Text(_launchLabel(settings.launchScreen, l10n)),
             onTap: () => _pickLaunch(context, controller, l10n),
           ),
+          ListTile(
+            leading: const Icon(Icons.open_in_new),
+            title: Text(l10n.defaultOpen),
+            subtitle: Text(_storyDisplayLabel(settings.storyDisplay, l10n)),
+            onTap: () => _pickStoryDisplay(context, controller, l10n),
+          ),
           const Divider(),
           _SectionHeader(l10n.behavior),
           SwitchListTile(
@@ -59,6 +77,13 @@ class SettingsScreen extends ConsumerWidget {
             title: Text(l10n.externalBrowser),
             value: settings.externalBrowser,
             onChanged: controller.setExternalBrowser,
+          ),
+          SwitchListTile(
+            secondary: const Icon(Icons.block),
+            title: Text(l10n.blockAds),
+            subtitle: Text(l10n.blockAdsSummary),
+            value: settings.adBlock,
+            onChanged: controller.setAdBlock,
           ),
           SwitchListTile(
             secondary: const Icon(Icons.color_lens_outlined),
@@ -83,6 +108,13 @@ class SettingsScreen extends ConsumerWidget {
             title: Text(l10n.autoMarkRead),
             value: settings.autoMarkRead,
             onChanged: controller.setAutoMarkRead,
+          ),
+          SwitchListTile(
+            secondary: const Icon(Icons.auto_awesome_outlined),
+            title: Text(l10n.highlightUpdated),
+            subtitle: Text(l10n.highlightUpdatedSummary),
+            value: settings.highlightUpdated,
+            onChanged: controller.setHighlightUpdated,
           ),
           SwitchListTile(
             secondary: const Icon(Icons.downloading_outlined),
@@ -148,7 +180,7 @@ class SettingsScreen extends ConsumerWidget {
           ListTile(
             leading: const Icon(Icons.info_outline),
             title: Text(l10n.version),
-            subtitle: const Text('3.4.0 (100)'),
+            subtitle: const Text(AppConstants.versionDisplay),
           ),
           ListTile(
             leading: const Icon(Icons.privacy_tip_outlined),
@@ -181,7 +213,7 @@ class SettingsScreen extends ConsumerWidget {
             onTap: () => showLicensePage(
               context: context,
               applicationName: l10n.appName,
-              applicationVersion: '3.4.0',
+              applicationVersion: AppConstants.version,
             ),
           ),
           const SizedBox(height: 32),
@@ -258,6 +290,29 @@ class SettingsScreen extends ConsumerWidget {
         TextSize.extraLarge => l10n.extraLarge,
       };
 
+  String _lineSpacingLabel(LineSpacing value, AppLocalizations l10n) =>
+      switch (value) {
+        LineSpacing.compact => l10n.compact,
+        LineSpacing.normal => l10n.normal,
+        LineSpacing.cozy => l10n.cozy,
+        LineSpacing.comfortable => l10n.comfortable,
+      };
+
+  String _maxLinesLabel(CommentMaxLines value, AppLocalizations l10n) =>
+      switch (value) {
+        CommentMaxLines.three => l10n.maxLines3,
+        CommentMaxLines.four => l10n.maxLines4,
+        CommentMaxLines.five => l10n.maxLines5,
+        CommentMaxLines.full => l10n.fullContent,
+      };
+
+  String _storyDisplayLabel(StoryDisplay value, AppLocalizations l10n) =>
+      switch (value) {
+        StoryDisplay.comments => l10n.storyComments,
+        StoryDisplay.article => l10n.storyArticle,
+        StoryDisplay.readability => l10n.storyReadability,
+      };
+
   String _fontLabel(AppFont value, AppLocalizations l10n) => switch (value) {
     AppFont.system => l10n.fontDefault,
     AppFont.droidSans => 'Droid Sans',
@@ -300,6 +355,51 @@ class SettingsScreen extends ConsumerWidget {
       label: (value) => _textSizeLabel(value, l10n),
     );
     if (selected != null) await controller.setTextSize(selected);
+  }
+
+  Future<void> _pickLineSpacing(
+    BuildContext context,
+    SettingsController controller,
+    AppLocalizations l10n,
+  ) async {
+    final selected = await _showPicker<LineSpacing>(
+      context,
+      title: l10n.lineSpacing,
+      values: LineSpacing.values,
+      current: controller.settings.lineSpacing,
+      label: (value) => _lineSpacingLabel(value, l10n),
+    );
+    if (selected != null) await controller.setLineSpacing(selected);
+  }
+
+  Future<void> _pickMaxLines(
+    BuildContext context,
+    SettingsController controller,
+    AppLocalizations l10n,
+  ) async {
+    final selected = await _showPicker<CommentMaxLines>(
+      context,
+      title: l10n.longComment,
+      values: CommentMaxLines.values,
+      current: controller.settings.maxCommentLines,
+      label: (value) => _maxLinesLabel(value, l10n),
+    );
+    if (selected != null) await controller.setMaxCommentLines(selected);
+  }
+
+  Future<void> _pickStoryDisplay(
+    BuildContext context,
+    SettingsController controller,
+    AppLocalizations l10n,
+  ) async {
+    final selected = await _showPicker<StoryDisplay>(
+      context,
+      title: l10n.defaultOpen,
+      values: StoryDisplay.values,
+      current: controller.settings.storyDisplay,
+      label: (value) => _storyDisplayLabel(value, l10n),
+    );
+    if (selected != null) await controller.setStoryDisplay(selected);
   }
 
   Future<void> _pickFont(

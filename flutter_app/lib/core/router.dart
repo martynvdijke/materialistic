@@ -49,7 +49,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       GoRoute(
         path: '/submit',
-        builder: (context, state) => const SubmitScreen(),
+        builder: (context, state) => SubmitScreen(
+          initialUrl: state.uri.queryParameters['url'],
+          initialTitle: state.uri.queryParameters['title'],
+          initialText: state.uri.queryParameters['text'],
+        ),
       ),
       GoRoute(
         path: '/settings',
@@ -65,6 +69,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => ReaderScreen(
           url: state.uri.queryParameters['url'] ?? '',
           title: state.uri.queryParameters['title'],
+          initialReaderMode: state.uri.queryParameters['reader'] != 'false',
         ),
       ),
     ],

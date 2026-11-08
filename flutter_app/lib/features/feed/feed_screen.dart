@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/models/item.dart';
 import '../../core/providers.dart';
-import '../../core/utils/url_utils.dart';
+import '../../core/story_navigation.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/app_drawer.dart';
 import '../../widgets/story_tile.dart';
@@ -21,6 +21,7 @@ class FeedScreen extends ConsumerStatefulWidget {
 
 class _FeedScreenState extends ConsumerState<FeedScreen> {
   final _items = <Item>[];
+  final _changedIds = <int>{};
   final _scrollController = ScrollController();
   late final Stream<Set<int>> _readStream;
   bool _loading = false;
@@ -41,6 +42,8 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
   void didUpdateWidget(covariant FeedScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.feedType != widget.feedType) {
+      _items.clear();
+      _changedIds.clear();
       _reload();
     }
   }
@@ -110,6 +113,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
 
   Future<void> _loadPage(int page, {required bool replace}) async {
     if (_loading) return;
+    final previous = replace
+        ? {for (final item in _items) item.id: item}
+        : const <int, Item>{};
     setState(() {
       _loading = true;
       if (replace) _error = null;
@@ -117,8 +123,24 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     try {
       final items = await _fetchPage(page);
       if (!mounted) return;
+      final changed = <int>{};
+      if (replace && ref.read(settingsProvider).settings.highlightUpdated) {
+        for (final item in items) {
+          final old = previous[item.id];
+          if (old != null &&
+              (old.score != item.score ||
+                  old.descendants != item.descendants)) {
+            changed.add(item.id);
+          }
+        }
+      }
       setState(() {
-        if (replace) _items.clear();
+        if (replace) {
+          _items.clear();
+          _changedIds
+            ..clear()
+            ..addAll(changed);
+        }
         _items.addAll(items);
         _page = page + 1;
         _hasMore = items.length >= 20;
@@ -149,7 +171,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
   Future<void> _reload() async {
     ref.read(storyRepositoryProvider).invalidate();
     setState(() {
-      _items.clear();
       _page = 0;
       _hasMore = true;
       _firstLoad = true;
@@ -159,22 +180,11 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
   }
 
   void _openItem(Item item) {
-    if (ref.read(settingsProvider).settings.autoMarkRead) {
-      ref.read(databaseProvider).markRead(item.id);
-    }
-    context.push('/item/${item.id}');
+    openStory(context, ref, item);
   }
 
   void _openLink(Item item) {
-    final settings = ref.read(settingsProvider).settings;
-    if (!isHttpUrl(item.url)) return;
-    if (settings.externalBrowser) {
-      openExternal(item.url);
-    } else {
-      context.push(
-        '/reader?url=${Uri.encodeComponent(item.url!)}&title=${Uri.encodeComponent(item.title ?? '')}',
-      );
-    }
+    openStoryLink(context, ref, item);
   }
 
   @override
@@ -241,6 +251,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
   }
 
   Widget _buildBody(AppLocalizations l10n) {
+    final settings = ref.watch(settingsProvider).settings;
     if (_firstLoad && _loading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -282,9 +293,13 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
               return StoryTile(
                 item: item,
                 isRead: readIds.contains(item.id),
+                highlighted: _changedIds.contains(item.id),
+                swipeActions: settings.swipeActions,
                 onTap: () => _openItem(item),
-                onComments: () => _openItem(item),
+                onComments: () => openComments(context, item),
                 onOpenLink: item.hasUrl ? () => _openLink(item) : null,
+                onSwipeSave: () => toggleFavorite(context, ref, item),
+                onSwipeVote: () => upvoteStory(context, ref, item),
                 onProfile: item.by == null
                     ? null
                     : () => context.push('/user/${item.by}'),

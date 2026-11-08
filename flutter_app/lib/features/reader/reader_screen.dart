@@ -1,30 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/providers.dart';
+import '../../core/settings/settings_controller.dart';
 import '../../core/utils/url_utils.dart';
 import '../../l10n/app_localizations.dart';
 
-class ReaderScreen extends StatefulWidget {
-  const ReaderScreen({super.key, required this.url, this.title});
+class ReaderScreen extends ConsumerStatefulWidget {
+  const ReaderScreen({
+    super.key,
+    required this.url,
+    this.title,
+    this.initialReaderMode = true,
+  });
 
   final String url;
   final String? title;
+  final bool initialReaderMode;
 
   @override
-  State<ReaderScreen> createState() => _ReaderScreenState();
+  ConsumerState<ReaderScreen> createState() => _ReaderScreenState();
 }
 
-class _ReaderScreenState extends State<ReaderScreen> {
+class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   InAppWebViewController? _controller;
   final Set<String> _blockedHosts = {};
   double _progress = 0;
-  bool _readerMode = true;
+  late bool _readerMode;
 
   @override
   void initState() {
     super.initState();
+    _readerMode = widget.initialReaderMode;
     _loadHosts();
   }
 
@@ -50,6 +60,9 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   Future<void> _applyReaderMode() async {
     if (!_readerMode || _controller == null) return;
+    final settings = ref.read(settingsProvider).settings;
+    final fontSize = 18 * settings.textSize.scale;
+    final lineHeight = 1.65 * settings.lineSpacing.factor;
     await _controller!.evaluateJavascript(
       source:
           '''
@@ -66,8 +79,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
   style.textContent = `
     body { margin: 0; background: transparent; }
     #materialistic-reader { max-width: 720px; margin: 0 auto; padding: 20px 18px 48px;
-      font-family: Georgia, serif; font-size: 18px; line-height: 1.65;
-      color: ${_readerTextColor()}; }
+      font-family: ${_readerFontFamily(settings.font)}; font-size: ${fontSize}px;
+      line-height: $lineHeight; color: ${_readerTextColor()}; }
     #materialistic-reader img, #materialistic-reader video, #materialistic-reader iframe {
       max-width: 100% !important; height: auto !important; }
     #materialistic-reader pre { overflow-x: auto; }
@@ -78,6 +91,14 @@ class _ReaderScreenState extends State<ReaderScreen> {
 ''',
     );
   }
+
+  String _readerFontFamily(AppFont font) => switch (font) {
+    AppFont.system => 'system-ui, -apple-system, sans-serif',
+    AppFont.droidSans => "'Droid Sans', sans-serif",
+    AppFont.droidSerif => "'Droid Serif', serif",
+    AppFont.libreBaskerville => "'Libre Baskerville', serif",
+    AppFont.robotoSlab => "'Roboto Slab', serif",
+  };
 
   String _readerTextColor() {
     return Theme.of(context).brightness == Brightness.dark
@@ -146,7 +167,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
               ),
               onWebViewCreated: (controller) => _controller = controller,
               shouldInterceptRequest: (controller, request) async {
-                if (_isBlocked(request.url)) {
+                if (ref.read(settingsProvider).settings.adBlock &&
+                    _isBlocked(request.url)) {
                   return WebResourceResponse(
                     data: Uint8List(0),
                     contentType: 'text/plain',

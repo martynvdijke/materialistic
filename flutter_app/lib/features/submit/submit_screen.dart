@@ -9,7 +9,16 @@ import '../../l10n/app_localizations.dart';
 enum _SubmitType { link, text }
 
 class SubmitScreen extends ConsumerStatefulWidget {
-  const SubmitScreen({super.key});
+  const SubmitScreen({
+    super.key,
+    this.initialUrl,
+    this.initialTitle,
+    this.initialText,
+  });
+
+  final String? initialUrl;
+  final String? initialTitle;
+  final String? initialText;
 
   @override
   ConsumerState<SubmitScreen> createState() => _SubmitScreenState();
@@ -22,6 +31,22 @@ class _SubmitScreenState extends ConsumerState<SubmitScreen> {
   final _text = TextEditingController();
   _SubmitType _type = _SubmitType.link;
   bool _busy = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final sharedUrl = widget.initialUrl?.trim();
+    final sharedText = widget.initialText?.trim();
+    if (sharedUrl != null && sharedUrl.isNotEmpty) {
+      _url.text = sharedUrl;
+      _title.text = widget.initialTitle?.trim() ?? '';
+      _type = _SubmitType.link;
+    } else if (sharedText != null && sharedText.isNotEmpty) {
+      _text.text = sharedText;
+      _title.text = widget.initialTitle?.trim() ?? '';
+      _type = _SubmitType.text;
+    }
+  }
 
   @override
   void dispose() {

@@ -56,6 +56,52 @@ enum TextSize {
   );
 }
 
+enum LineSpacing {
+  compact('0.9', 0.9),
+  normal('1.0', 1.0),
+  cozy('1.2', 1.2),
+  comfortable('1.5', 1.5);
+
+  const LineSpacing(this.value, this.factor);
+  final String value;
+  final double factor;
+
+  static LineSpacing fromValue(String? value) => values.firstWhere(
+    (spacing) => spacing.value == value,
+    orElse: () => LineSpacing.normal,
+  );
+}
+
+enum CommentMaxLines {
+  three(3, '3'),
+  four(4, '4'),
+  five(5, '5'),
+  full(-1, '-1');
+
+  const CommentMaxLines(this.lines, this.value);
+  final int lines;
+  final String value;
+
+  static CommentMaxLines fromValue(String? value) => values.firstWhere(
+    (option) => option.value == value,
+    orElse: () => CommentMaxLines.full,
+  );
+}
+
+enum StoryDisplay {
+  comments('comments'),
+  article('article'),
+  readability('readability');
+
+  const StoryDisplay(this.value);
+  final String value;
+
+  static StoryDisplay fromValue(String? value) => values.firstWhere(
+    (mode) => mode.value == value,
+    orElse: () => StoryDisplay.article,
+  );
+}
+
 enum LaunchScreen {
   top('top'),
   best('best'),
@@ -100,8 +146,13 @@ class AppSettings {
     this.colorCode = true,
     this.threadIndicator = true,
     this.swipeActions = true,
-    this.autoMarkRead = true,
+    this.autoMarkRead = false,
     this.lazyLoad = true,
+    this.highlightUpdated = true,
+    this.adBlock = true,
+    this.lineSpacing = LineSpacing.normal,
+    this.maxCommentLines = CommentMaxLines.full,
+    this.storyDisplay = StoryDisplay.article,
     this.popularWindow = PopularWindow.day,
   });
 
@@ -116,6 +167,11 @@ class AppSettings {
   final bool swipeActions;
   final bool autoMarkRead;
   final bool lazyLoad;
+  final bool highlightUpdated;
+  final bool adBlock;
+  final LineSpacing lineSpacing;
+  final CommentMaxLines maxCommentLines;
+  final StoryDisplay storyDisplay;
   final PopularWindow popularWindow;
 
   AppSettings copyWith({
@@ -130,6 +186,11 @@ class AppSettings {
     bool? swipeActions,
     bool? autoMarkRead,
     bool? lazyLoad,
+    bool? highlightUpdated,
+    bool? adBlock,
+    LineSpacing? lineSpacing,
+    CommentMaxLines? maxCommentLines,
+    StoryDisplay? storyDisplay,
     PopularWindow? popularWindow,
   }) {
     return AppSettings(
@@ -144,6 +205,11 @@ class AppSettings {
       swipeActions: swipeActions ?? this.swipeActions,
       autoMarkRead: autoMarkRead ?? this.autoMarkRead,
       lazyLoad: lazyLoad ?? this.lazyLoad,
+      highlightUpdated: highlightUpdated ?? this.highlightUpdated,
+      adBlock: adBlock ?? this.adBlock,
+      lineSpacing: lineSpacing ?? this.lineSpacing,
+      maxCommentLines: maxCommentLines ?? this.maxCommentLines,
+      storyDisplay: storyDisplay ?? this.storyDisplay,
       popularWindow: popularWindow ?? this.popularWindow,
     );
   }
@@ -195,8 +261,17 @@ class SettingsController extends ChangeNotifier {
       colorCode: prefs.getBool('pref_color_code') ?? true,
       threadIndicator: prefs.getBool('pref_thread_indicator') ?? true,
       swipeActions: prefs.getBool('pref_list_swipe_left') ?? true,
-      autoMarkRead: prefs.getBool('pref_auto_viewed') ?? true,
+      autoMarkRead: prefs.getBool('pref_auto_viewed') ?? false,
       lazyLoad: prefs.getBool('pref_lazy_load') ?? true,
+      highlightUpdated: prefs.getBool('pref_highlight_updated') ?? true,
+      adBlock: prefs.getBool('pref_ad_block') ?? true,
+      lineSpacing: LineSpacing.fromValue(prefs.getString('pref_line_height')),
+      maxCommentLines: CommentMaxLines.fromValue(
+        prefs.getString('pref_max_lines'),
+      ),
+      storyDisplay: StoryDisplay.fromValue(
+        prefs.getString('pref_story_display'),
+      ),
       popularWindow: _popularWindow(prefs.getString('pref_popular_range')),
     );
   }
@@ -279,6 +354,36 @@ class SettingsController extends ChangeNotifier {
     _settings = _settings.copyWith(lazyLoad: value);
     notifyListeners();
     await _prefs.setBool('pref_lazy_load', value);
+  }
+
+  Future<void> setHighlightUpdated(bool value) async {
+    _settings = _settings.copyWith(highlightUpdated: value);
+    notifyListeners();
+    await _prefs.setBool('pref_highlight_updated', value);
+  }
+
+  Future<void> setAdBlock(bool value) async {
+    _settings = _settings.copyWith(adBlock: value);
+    notifyListeners();
+    await _prefs.setBool('pref_ad_block', value);
+  }
+
+  Future<void> setLineSpacing(LineSpacing value) async {
+    _settings = _settings.copyWith(lineSpacing: value);
+    notifyListeners();
+    await _prefs.setString('pref_line_height', value.value);
+  }
+
+  Future<void> setMaxCommentLines(CommentMaxLines value) async {
+    _settings = _settings.copyWith(maxCommentLines: value);
+    notifyListeners();
+    await _prefs.setString('pref_max_lines', value.value);
+  }
+
+  Future<void> setStoryDisplay(StoryDisplay value) async {
+    _settings = _settings.copyWith(storyDisplay: value);
+    notifyListeners();
+    await _prefs.setString('pref_story_display', value.value);
   }
 
   Future<void> setPopularWindow(PopularWindow value) async {

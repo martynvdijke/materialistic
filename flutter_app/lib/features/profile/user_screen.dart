@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/models/item.dart';
 import '../../core/providers.dart';
+import '../../core/story_navigation.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/hn_html.dart';
 import '../../widgets/story_tile.dart';
@@ -90,6 +91,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final auth = ref.watch(authControllerProvider);
+    final settings = ref.watch(settingsProvider).settings;
     final theme = Theme.of(context);
     final muted = theme.colorScheme.onSurfaceVariant;
 
@@ -197,12 +199,13 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                       StoryTile(
                         item: story,
                         isRead: false,
-                        onTap: () => context.push('/item/${story.id}'),
-                        onComments: () => context.push('/item/${story.id}'),
+                        swipeActions: settings.swipeActions,
+                        onTap: () => openStory(context, ref, story),
+                        onComments: () => openComments(context, story),
+                        onSwipeSave: () => toggleFavorite(context, ref, story),
+                        onSwipeVote: () => upvoteStory(context, ref, story),
                         onOpenLink: story.hasUrl
-                            ? () => context.push(
-                                '/reader?url=${Uri.encodeComponent(story.url!)}&title=${Uri.encodeComponent(story.title ?? '')}',
-                              )
+                            ? () => openStoryLink(context, ref, story)
                             : null,
                         onProfile: null,
                       ),

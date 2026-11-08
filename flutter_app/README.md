@@ -1,18 +1,21 @@
 # Materialistic Flutter
 
-Flutter rewrite of Materialistic, targeting Android parity first. The native
-app in `../app` remains the shipping implementation until cutover.
+Flutter rewrite of Materialistic, targeting Android parity first. The Flutter
+app is the shipping Android client; the legacy native app in `../app` is kept
+as a reference implementation and CI build artifact.
 
 ## Status
 
 Implemented: feed browsing (top/new/best/ask/show/jobs/popular), story and
 comment views, voting, replying, submitting, Algolia search with history,
 profiles, favorites with export, login/create account/logout, the reader with
-ad blocking, deep links, seven themes, text/font settings, and English,
-Spanish and Simplified Chinese localization.
+ad blocking, deep links, share-to-submit, seven themes, text/font/line-spacing
+settings, long-comment limits, default story view, updated-story highlighting,
+swipe actions, and English, Spanish and Simplified Chinese localization.
 
 Not yet wired: one-time import of favorites, read history and credentials from
-the native app. Deferred by design: home-screen widget, background sync,
+the native app, offline feed/article caching, custom-tab mode and per-thread
+comment display modes. Deferred by design: home-screen widget, background sync,
 offline archive, PDF viewer and iOS.
 
 ## Requirements
@@ -21,9 +24,10 @@ offline archive, PDF viewer and iOS.
 - JDK 17 for Android builds
 - Android SDK with API 36
 
-The Android build uses the same application id (`xyz.vandijke.materialistic`)
-as the native app, so install it on a separate device/emulator or uninstall one
-before testing the other.
+The Flutter app uses the application id `xyz.vandijke.materialistic`, while
+the legacy native app used `io.github.hidroh.materialistic`, so both can be
+installed side by side. Local data is not migrated between them; uninstalling
+either app removes only its own data.
 
 ## Build and test
 

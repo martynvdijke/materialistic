@@ -8,14 +8,18 @@ class CommentRepository {
 
   final HnApi hnApi;
   int _loaded = 0;
+  int _maxComments = 600;
+  int _maxDepth = AppConstants.maxCommentDepth;
 
-  Future<List<CommentNode>> load(Item story) async {
+  Future<List<CommentNode>> load(Item story, {bool lazyLoad = true}) async {
     _loaded = 0;
+    _maxComments = lazyLoad ? 600 : 5000;
+    _maxDepth = lazyLoad ? AppConstants.maxCommentDepth : 100;
     return _loadChildren(story.kids, 0);
   }
 
   Future<List<CommentNode>> _loadChildren(List<int> ids, int depth) async {
-    if (ids.isEmpty || depth > AppConstants.maxCommentDepth) return const [];
+    if (ids.isEmpty || depth > _maxDepth) return const [];
     final items = await hnApi.fetchItems(ids);
     final visible = items
         .where(
@@ -29,7 +33,7 @@ class CommentRepository {
 
     final nodes = await Future.wait(
       visible.map((item) async {
-        if (_loaded >= 600) {
+        if (_loaded >= _maxComments) {
           return CommentNode(item: item, depth: depth);
         }
         _loaded++;

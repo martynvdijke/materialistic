@@ -14,6 +14,81 @@ class StoryTile extends StatelessWidget {
     this.onOpenLink,
     this.onComments,
     this.onProfile,
+    this.highlighted = false,
+    this.swipeActions = false,
+    this.onSwipeSave,
+    this.onSwipeVote,
+  });
+
+  final Item item;
+  final bool isRead;
+  final VoidCallback onTap;
+  final VoidCallback? onOpenLink;
+  final VoidCallback? onComments;
+  final VoidCallback? onProfile;
+  final bool highlighted;
+  final bool swipeActions;
+  final Future<void> Function()? onSwipeSave;
+  final Future<void> Function()? onSwipeVote;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final content = _StoryTileContent(
+      item: item,
+      isRead: isRead,
+      onTap: onTap,
+      onOpenLink: onOpenLink,
+      onComments: onComments,
+      onProfile: onProfile,
+    );
+    final decorated = highlighted
+        ? ColoredBox(
+            color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+            child: content,
+          )
+        : content;
+
+    if (!swipeActions) return decorated;
+    final l10n = AppLocalizations.of(context);
+    return Dismissible(
+      key: ValueKey('story-${item.id}'),
+      direction: DismissDirection.horizontal,
+      background: _SwipeBackground(
+        alignment: Alignment.centerLeft,
+        icon: Icons.arrow_upward,
+        label: l10n.upvote,
+        color: theme.colorScheme.secondaryContainer,
+        foreground: theme.colorScheme.onSecondaryContainer,
+      ),
+      secondaryBackground: _SwipeBackground(
+        alignment: Alignment.centerRight,
+        icon: Icons.bookmark_add_outlined,
+        label: l10n.save,
+        color: theme.colorScheme.tertiaryContainer,
+        foreground: theme.colorScheme.onTertiaryContainer,
+      ),
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.startToEnd) {
+          await onSwipeVote?.call();
+        } else {
+          await onSwipeSave?.call();
+        }
+        return false;
+      },
+      child: decorated,
+    );
+  }
+}
+
+class _StoryTileContent extends StatelessWidget {
+  const _StoryTileContent({
+    required this.item,
+    required this.isRead,
+    required this.onTap,
+    required this.onOpenLink,
+    required this.onComments,
+    required this.onProfile,
   });
 
   final Item item;
@@ -116,6 +191,43 @@ class StoryTile extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SwipeBackground extends StatelessWidget {
+  const _SwipeBackground({
+    required this.alignment,
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.foreground,
+  });
+
+  final Alignment alignment;
+  final IconData icon;
+  final String label;
+  final Color color;
+  final Color foreground;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color,
+      alignment: alignment,
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: foreground),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelLarge
+                ?.copyWith(color: foreground),
+          ),
+        ],
       ),
     );
   }

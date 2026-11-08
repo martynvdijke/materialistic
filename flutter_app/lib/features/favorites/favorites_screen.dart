@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../core/database/app_database.dart';
+import '../../core/models/item.dart';
 import '../../core/providers.dart';
+import '../../core/story_navigation.dart';
 import '../../l10n/app_localizations.dart';
 
 class FavoritesScreen extends ConsumerStatefulWidget {
@@ -138,6 +139,12 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
                             const Divider(height: 1),
                         itemBuilder: (context, index) {
                           final row = filtered[index];
+                          final item = Item(
+                            id: row.itemId,
+                            title: row.title,
+                            url: row.url,
+                            time: row.time,
+                          );
                           return ListTile(
                             title: Text(
                               row.title.isEmpty ? l10n.unknown : row.title,
@@ -156,7 +163,7 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
                                   .read(databaseProvider)
                                   .removeFavorite(row.itemId),
                             ),
-                            onTap: () => context.push('/item/${row.itemId}'),
+                            onTap: () => openStory(context, ref, item),
                           );
                         },
                       ),

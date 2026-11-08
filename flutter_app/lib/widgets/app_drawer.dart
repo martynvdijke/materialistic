@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/constants.dart';
 import '../core/providers.dart';
 import '../features/feed/feed_type.dart';
 import '../l10n/app_localizations.dart';
@@ -109,7 +110,7 @@ class AppDrawer extends ConsumerWidget {
             showAboutDialog(
               context: context,
               applicationName: l10n.appName,
-              applicationVersion: '3.4.0',
+              applicationVersion: AppConstants.version,
               applicationLegalese: 'Apache License 2.0',
             );
           },
