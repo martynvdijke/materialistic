@@ -20,8 +20,9 @@ void main() {
     expect(find.text('Top'), findsOneWidget);
     expect(find.byType(StoryTile), findsWidgets);
 
-    // Open the first story and wait for its comment header.
-    await tester.tap(find.byType(StoryTile).first);
+    // Story tiles open the reader by default; tap the comments affordance
+    // instead so the item screen (with Upvote/Reply/Share) is shown.
+    await tester.tap(find.byIcon(Icons.chat_bubble_outline).first);
     await _waitFor(
       tester,
       find.text('Upvote'),

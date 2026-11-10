@@ -1,3 +1,10 @@
+## [3.8.1](https://github.com/martynvdijke/materialistic/compare/v3.8.0...v3.8.1) (2026-11-10)
+
+
+### Bug Fixes
+
+* **renovate:** disable platform automerge so Renovate merges green PRs itself ([7301db2](https://github.com/martynvdijke/materialistic/commit/7301db2ccd3cc0498c470305f7cd02daa22f6527))
+
 # [3.8.0](https://github.com/martynvdijke/materialistic/compare/v3.7.0...v3.8.0) (2026-11-08)
 
 
