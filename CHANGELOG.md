@@ -1,3 +1,10 @@
+## [3.8.5](https://github.com/martynvdijke/materialistic/compare/v3.8.4...v3.8.5) (2026-11-19)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies to v2.11.1 ([#13](https://github.com/martynvdijke/materialistic/issues/13)) ([93a4984](https://github.com/martynvdijke/materialistic/commit/93a49844479eec643200240c229f6a1dfa4b0fcb))
+
 ## [3.8.4](https://github.com/martynvdijke/materialistic/compare/v3.8.3...v3.8.4) (2026-11-16)
 
 ## [3.8.3](https://github.com/martynvdijke/materialistic/compare/v3.8.2...v3.8.3) (2026-11-15)
