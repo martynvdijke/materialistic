@@ -86,7 +86,7 @@ ext {
     daggerVersion = '1.2.5'
     retrofitVersion = '3.0.0'
     roomVersion = '2.8.5'
-    lifecycleVersion = '2.11.0'
+    lifecycleVersion = '2.11.1'
 }
 
 dependencies {
