@@ -1,3 +1,5 @@
+## [3.8.6](https://github.com/martynvdijke/materialistic/compare/v3.8.5...v3.8.6) (2026-11-20)
+
 ## [3.8.5](https://github.com/martynvdijke/materialistic/compare/v3.8.4...v3.8.5) (2026-11-19)
 
 
